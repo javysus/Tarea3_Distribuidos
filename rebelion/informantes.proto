@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package informantes;
+
+option go_package = "example.com/go-rebelion-grpc;go_rebelion_grpc";
+
+service Informantes {
+    rpc AddCity (Info) returns (Respuesta) {}
+    rpc UpdateName (InfoUpdateName) returns (Respuesta) {}
+    rpc UpdateNumber (Info) returns (Respuesta) {}
+    rpc DeleteCity (InfoDelete) returns (Respuesta) {}
+}
+
+service Broker {
+    rpc SolicitarIP (Comando) returns (IP) {}
+}
+
+message Comando{
+    string comando = 1;
+}
+
+message IP{
+    string direccion = 1;
+}
+
+message Info{
+    string nombre_planeta = 1;
+    string nombre_ciudad = 2;
+    int32 nuevo_valor = 3;
+}
+
+message Respuesta{
+    repeated int32 vector = 1;
+}
+
+message InfoDelete{
+    string nombre_planeta = 1;
+    string nombre_ciudad = 2;
+}
+
+message InfoUpdateName{
+    string nombre_planeta = 1;
+    string nombre_ciudad = 2;
+    string nuevo_valor = 3;
+}
