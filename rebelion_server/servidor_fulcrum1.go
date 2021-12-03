@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net"
 	"os"
@@ -48,6 +49,26 @@ func modificarReloj(planeta string) []int32 {
 	return vector_r
 }
 
+//Funcion para retornar el reloj asociado al planeta solicitado por el Broker
+func (s *server) SolicitarRelojes(ctx context.Context, in *pb.SolicitudR) (*pb.Respuesta, error) {
+	nombre_planeta := in.GetPlaneta()
+	nuevo_planeta := 1
+	var vector_r []int32
+
+	for _, reloj := range vectores { //Recorrer el arreglo para encontrar el vector del planeta
+		if reloj.nombre_planeta == nombre_planeta {
+			vector_r = reloj.vector
+			nuevo_planeta = 0
+		}
+	}
+
+	if nuevo_planeta == 1 { //Nuevo planeta asi que no tiene cambios
+		vector_r = []int32{0, 0, 0}
+	}
+
+	fmt.Println(vector_r)
+	return &pb.Respuesta{Vector: vector_r}, nil
+}
 func (s *server) AddCity(ctx context.Context, in *pb.Info) (*pb.Respuesta, error) {
 	nombre_planeta := in.GetNombrePlaneta()
 	nombre_ciudad := in.GetNombreCiudad()
@@ -57,19 +78,19 @@ func (s *server) AddCity(ctx context.Context, in *pb.Info) (*pb.Respuesta, error
 	if err != nil {
 		log.Println(err)
 	}
-	defer f.Close()
 	if _, err := f.WriteString(nombre_planeta + " " + nombre_ciudad + " " + nuevo_valor + "\n"); err != nil {
 		log.Println(err)
 	}
+	f.Close()
 
 	f, err = os.OpenFile("log_"+nombre_planeta+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Println(err)
 	}
-	defer f.Close()
 	if _, err := f.WriteString("AddCity " + nombre_planeta + " " + nombre_ciudad + " " + nuevo_valor + "\n"); err != nil {
 		log.Println(err)
 	}
+	f.Close()
 
 	vector_r := modificarReloj(nombre_planeta)
 	return &pb.Respuesta{Vector: vector_r}, nil
@@ -86,11 +107,21 @@ func (s *server) UpdateName(ctx context.Context, in *pb.InfoUpdateName) (*pb.Res
 	}
 
 	lines := strings.Split(string(f), "\n")
+	lines = lines[:len(lines)-1]
+	fmt.Println(lines)
+	fmt.Println(len(lines))
 	for i, line := range lines {
 		if strings.Contains(line, nombre_ciudad) {
 			line_data := strings.Fields(line)
+			fmt.Println("Esto es el line_data:", line_data)
 			lines[i] = nombre_planeta + " " + nuevo_valor + " " + line_data[2]
 		}
+	}
+	fmt.Println(lines)
+
+	e := os.Remove(nombre_planeta + ".txt")
+	if e != nil {
+		log.Fatal(e)
 	}
 
 	a, er := os.OpenFile(nombre_planeta+".txt", os.O_CREATE|os.O_WRONLY, 0644)
@@ -99,20 +130,22 @@ func (s *server) UpdateName(ctx context.Context, in *pb.InfoUpdateName) (*pb.Res
 	}
 
 	for _, line := range lines {
+		fmt.Println("Linea a escribir: ", line)
 		if _, err := a.WriteString(line + "\n"); err != nil {
 			log.Println(err)
 		}
 	}
-	defer a.Close()
+	a.Close()
 
-	a, er = os.OpenFile("log_"+nombre_planeta+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
+	b, erro := os.OpenFile("log_"+nombre_planeta+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if erro != nil {
 		log.Println(err)
 	}
-	defer a.Close()
-	if _, err := a.WriteString("UpdateName " + nombre_planeta + " " + nombre_ciudad + " " + nuevo_valor + "\n"); err != nil {
+	if _, err := b.WriteString("UpdateName " + nombre_planeta + " " + nombre_ciudad + " " + nuevo_valor + "\n"); err != nil {
 		log.Println(err)
 	}
+
+	b.Close()
 
 	vector_r := modificarReloj(nombre_planeta)
 	return &pb.Respuesta{Vector: vector_r}, nil
@@ -130,10 +163,16 @@ func (s *server) UpdateNumber(ctx context.Context, in *pb.Info) (*pb.Respuesta, 
 	}
 
 	lines := strings.Split(string(f), "\n")
+	lines = lines[:len(lines)-1]
 	for i, line := range lines {
 		if strings.Contains(line, nombre_ciudad) {
 			lines[i] = nombre_planeta + " " + nombre_ciudad + " " + strconv.Itoa(int(nuevo_valor))
 		}
+	}
+
+	e := os.Remove(nombre_planeta + ".txt")
+	if e != nil {
+		log.Fatal(e)
 	}
 
 	a, er := os.OpenFile(nombre_planeta+".txt", os.O_CREATE|os.O_WRONLY, 0644)
@@ -146,16 +185,67 @@ func (s *server) UpdateNumber(ctx context.Context, in *pb.Info) (*pb.Respuesta, 
 			log.Println(err)
 		}
 	}
-	defer a.Close()
+	a.Close()
 
-	a, er = os.OpenFile("log_"+nombre_planeta+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	b, erro := os.OpenFile("log_"+nombre_planeta+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if erro != nil {
+		log.Println(err)
+	}
+	if _, err := b.WriteString("UpdateNumber " + nombre_planeta + " " + nombre_ciudad + " " + strconv.Itoa(int(nuevo_valor)) + "\n"); err != nil {
+		log.Println(err)
+	}
+
+	b.Close()
+
+	vector_r := modificarReloj(nombre_planeta)
+	return &pb.Respuesta{Vector: vector_r}, nil
+}
+
+func (s *server) DeleteCity(ctx context.Context, in *pb.InfoDelete) (*pb.Respuesta, error) {
+	nombre_planeta := in.GetNombrePlaneta()
+	nombre_ciudad := in.GetNombreCiudad()
+
+	f, err := os.ReadFile(nombre_planeta + ".txt")
 	if err != nil {
 		log.Println(err)
 	}
-	defer a.Close()
-	if _, err := a.WriteString("UpdateNumber " + nombre_planeta + " " + nombre_ciudad + " " + strconv.Itoa(int(nuevo_valor)) + "\n"); err != nil {
+
+	lines := strings.Split(string(f), "\n")
+	lines = lines[:len(lines)-1]
+	var newlines []string
+	for i, line := range lines {
+		if strings.Contains(line, nombre_ciudad) {
+			continue
+		}
+		newlines = append(newlines, lines[i])
+	}
+
+	e := os.Remove(nombre_planeta + ".txt")
+	if e != nil {
+		log.Fatal(e)
+	}
+
+	a, er := os.OpenFile(nombre_planeta+".txt", os.O_CREATE|os.O_WRONLY, 0644)
+	if er != nil {
 		log.Println(err)
 	}
+
+	for _, line := range newlines {
+		if _, err := a.WriteString(line + "\n"); err != nil {
+			log.Println(err)
+		}
+	}
+	a.Close()
+
+	b, erro := os.OpenFile("log_"+nombre_planeta+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if erro != nil {
+		log.Println(err)
+	}
+	if _, err := b.WriteString("DeleteCity " + nombre_planeta + " " + nombre_ciudad + "\n"); err != nil {
+		log.Println(err)
+	}
+
+	b.Close()
 
 	vector_r := modificarReloj(nombre_planeta)
 	return &pb.Respuesta{Vector: vector_r}, nil

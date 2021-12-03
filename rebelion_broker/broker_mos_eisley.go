@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"math/rand"
 	"net"
+	"time"
 
 	"google.golang.org/grpc"
 
@@ -28,10 +30,42 @@ func random_range(min int, max int) int {
 
 func (s *server) SolicitarIP(ctx context.Context, in *pb.Comando) (*pb.IP, error) {
 	//Servidor aleatorio (para el broker)
-	servidor := random_range(1, 3)
+	nombre_planeta := in.GetPlaneta()
+	vector_informante := in.GetVector()
+	var arr_direcciones []string
 	//Direccion de servidores
 
-	return &pb.IP{Direccion: direcciones[servidor-1]}, nil
+	//Obtener reloj de servidor 1
+	conn, err := grpc.Dial(direcciones[0], grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	//Conexion con Servidor 1
+	c := pb.NewInformantesClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
+	r, err := c.SolicitarRelojes(ctx, &pb.SolicitudR{Planeta: nombre_planeta})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	vector_s1 := r.GetVector()
+	fmt.Println(vector_informante)
+	fmt.Println(vector_s1)
+	cancel()
+	//Lo mismo conexion con Servidor 2 y 3
+
+	//Comparar vectores
+	if vector_s1[0] >= vector_informante[0] && vector_s1[1] >= vector_informante[1] && vector_s1[2] >= vector_informante[2] {
+		arr_direcciones = append(arr_direcciones, direcciones[0])
+	}
+
+	//Repetir eso para los demas servidores
+
+	//Escoger al azar
+	servs := len(arr_direcciones)
+	servidor := random_range(0, servs-1)
+
+	return &pb.IP{Direccion: arr_direcciones[servidor]}, nil
 }
 
 func main() {

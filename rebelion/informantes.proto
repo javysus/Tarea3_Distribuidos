@@ -9,14 +9,32 @@ service Informantes {
     rpc UpdateName (InfoUpdateName) returns (Respuesta) {}
     rpc UpdateNumber (Info) returns (Respuesta) {}
     rpc DeleteCity (InfoDelete) returns (Respuesta) {}
+    rpc SolicitarRelojes (SolicitudR) returns (Respuesta) {}
+    rpc SolicitarRebeldes (Solicitud) returns (Rebeldes) {}
 }
 
 service Broker {
     rpc SolicitarIP (Comando) returns (IP) {}
+    rpc GetNumberRebeldes (Solicitud) returns (Rebeldes) {}
+}
+
+message Solicitud{
+    string nombre_planeta = 1;
+    string nombre_ciudad = 2;
+}
+
+message SolicitudR{
+    string planeta = 1;
+}
+
+message Rebeldes{
+    int32 rebeldes = 1;
 }
 
 message Comando{
     string comando = 1;
+    repeated int32 vector = 2;
+    string planeta = 3;
 }
 
 message IP{
