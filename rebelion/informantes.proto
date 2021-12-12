@@ -15,7 +15,7 @@ service Informantes {
 
 service Broker {
     rpc SolicitarIP (Comando) returns (IP) {}
-    rpc GetNumberRebeldes (Solicitud) returns (Rebeldes) {}
+    rpc GetNumberRebeldes (SolicitudLeia) returns (Rebeldes) {}
 }
 
 message Solicitud{
@@ -27,8 +27,16 @@ message SolicitudR{
     string planeta = 1;
 }
 
+message SolicitudLeia{
+    string nombre_planeta = 1;
+    string nombre_ciudad = 2;
+    repeated int32 vector =3;
+}
+
 message Rebeldes{
     int32 rebeldes = 1;
+    repeated int32 vector = 2;
+    int32 servidor = 3;
 }
 
 message Comando{

@@ -285,7 +285,7 @@ var Informantes_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BrokerClient interface {
 	SolicitarIP(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*IP, error)
-	GetNumberRebeldes(ctx context.Context, in *Solicitud, opts ...grpc.CallOption) (*Rebeldes, error)
+	GetNumberRebeldes(ctx context.Context, in *SolicitudLeia, opts ...grpc.CallOption) (*Rebeldes, error)
 }
 
 type brokerClient struct {
@@ -305,7 +305,7 @@ func (c *brokerClient) SolicitarIP(ctx context.Context, in *Comando, opts ...grp
 	return out, nil
 }
 
-func (c *brokerClient) GetNumberRebeldes(ctx context.Context, in *Solicitud, opts ...grpc.CallOption) (*Rebeldes, error) {
+func (c *brokerClient) GetNumberRebeldes(ctx context.Context, in *SolicitudLeia, opts ...grpc.CallOption) (*Rebeldes, error) {
 	out := new(Rebeldes)
 	err := c.cc.Invoke(ctx, "/informantes.Broker/GetNumberRebeldes", in, out, opts...)
 	if err != nil {
@@ -319,7 +319,7 @@ func (c *brokerClient) GetNumberRebeldes(ctx context.Context, in *Solicitud, opt
 // for forward compatibility
 type BrokerServer interface {
 	SolicitarIP(context.Context, *Comando) (*IP, error)
-	GetNumberRebeldes(context.Context, *Solicitud) (*Rebeldes, error)
+	GetNumberRebeldes(context.Context, *SolicitudLeia) (*Rebeldes, error)
 	mustEmbedUnimplementedBrokerServer()
 }
 
@@ -330,7 +330,7 @@ type UnimplementedBrokerServer struct {
 func (UnimplementedBrokerServer) SolicitarIP(context.Context, *Comando) (*IP, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SolicitarIP not implemented")
 }
-func (UnimplementedBrokerServer) GetNumberRebeldes(context.Context, *Solicitud) (*Rebeldes, error) {
+func (UnimplementedBrokerServer) GetNumberRebeldes(context.Context, *SolicitudLeia) (*Rebeldes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNumberRebeldes not implemented")
 }
 func (UnimplementedBrokerServer) mustEmbedUnimplementedBrokerServer() {}
@@ -365,7 +365,7 @@ func _Broker_SolicitarIP_Handler(srv interface{}, ctx context.Context, dec func(
 }
 
 func _Broker_GetNumberRebeldes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Solicitud)
+	in := new(SolicitudLeia)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -377,7 +377,7 @@ func _Broker_GetNumberRebeldes_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/informantes.Broker/GetNumberRebeldes",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BrokerServer).GetNumberRebeldes(ctx, req.(*Solicitud))
+		return srv.(BrokerServer).GetNumberRebeldes(ctx, req.(*SolicitudLeia))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	port = ":50051"
+	port = ":50054"
 )
 
 type reloj_vector struct {
@@ -36,13 +36,13 @@ func modificarReloj(planeta string) []int32 {
 	for i, reloj := range vectores {
 		if reloj.nombre_planeta == planeta { //El planeta ya tiene un reloj
 			nuevoPlaneta = 0
-			vectores[i].vector = []int32{reloj.vector[0] + 1, reloj.vector[1], reloj.vector[2]} //Se modifica
+			vectores[i].vector = []int32{reloj.vector[0], reloj.vector[1], reloj.vector[2] + 1} //Se modifica
 			vector_r = vectores[i].vector
 		}
 	}
 
 	if nuevoPlaneta == 1 { //Si es un nuevo planeta se agrega
-		p := reloj_vector{nombre_planeta: planeta, vector: []int32{1, 0, 0}}
+		p := reloj_vector{nombre_planeta: planeta, vector: []int32{0, 0, 1}}
 		vectores = append(vectores, p)
 		vector_r = p.vector
 	}
@@ -78,7 +78,7 @@ func (s *server) SolicitarRebeldes(ctx context.Context, in *pb.Solicitud) (*pb.R
 	//Leer archivo
 	f, err := os.ReadFile(nombre_planeta + ".txt")
 	if err != nil {
-		return &pb.Rebeldes{Rebeldes: int32(-2), Vector: []int32{0, 0, 0}, Servidor: int32(1)}, nil
+		return &pb.Rebeldes{Rebeldes: int32(-2), Vector: []int32{0, 0, 0}, Servidor: int32(3)}, nil
 	}
 
 	lines := strings.Split(string(f), "\n")
@@ -98,9 +98,10 @@ func (s *server) SolicitarRebeldes(ctx context.Context, in *pb.Solicitud) (*pb.R
 		}
 	}
 
-	return &pb.Rebeldes{Rebeldes: int32(numero_rebeldes), Vector: vector_r, Servidor: int32(1)}, nil
+	return &pb.Rebeldes{Rebeldes: int32(numero_rebeldes), Vector: vector_r, Servidor: int32(3)}, nil
 
 }
+
 func (s *server) AddCity(ctx context.Context, in *pb.Info) (*pb.Respuesta, error) {
 	nombre_planeta := in.GetNombrePlaneta()
 	nombre_ciudad := in.GetNombreCiudad()

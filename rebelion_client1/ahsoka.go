@@ -65,16 +65,13 @@ func main() {
 		}
 
 		var pos_planeta int
-		if len(vectores) == 0 {
-			vector = []int32{0, 0, 0}
-		} else {
-			for i, reloj := range vectores { //Buscar el reloj del planeta
-				if reloj.planeta == s[1] {
-					//Vector
-					pos_planeta = i
-					vector = reloj.reloj_vector
-					nuevo_planeta = 0
-				}
+		vector = []int32{0, 0, 0}
+		for i, reloj := range vectores { //Buscar el reloj del planeta
+			if reloj.planeta == s[1] {
+				//Vector
+				pos_planeta = i
+				vector = reloj.reloj_vector
+				nuevo_planeta = 0
 			}
 		}
 		r, err := c.SolicitarIP(ctx, &pb.Comando{Comando: comando, Vector: vector, Planeta: s[1]})
