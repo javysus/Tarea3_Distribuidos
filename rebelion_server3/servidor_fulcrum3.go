@@ -49,6 +49,33 @@ func modificarReloj(planeta string) []int32 {
 	return vector_r
 }
 
+func (s *server) Merge(ctx context.Context, in *pb.Flag) (*pb.InfoMerge, error) {
+
+	var infos []*pb.DataMerge
+
+	for _, reloj := range vectores {
+
+		//Leer archivo
+		f, err := os.ReadFile("log_" + reloj.nombre_planeta + ".txt")
+		if err != nil {
+			log.Println(err)
+		}
+		lines := strings.Split(string(f), "\n")
+		lines = lines[:len(lines)-1]
+
+		//Agregar a nuestros arreglos
+		/*planetas = append(planetas, reloj.nombre_planeta)
+		relojes = append(relojes, reloj.vector)
+		logs = append(logs, lines)*/
+
+		//inf := DataMerge{nombre_planeta: reloj.nombre_planeta, vector: reloj.vector, logs: lines}
+		inf := &pb.DataMerge{Reloj: reloj.vector, Planeta: reloj.nombre_planeta, Logs: lines}
+		infos = append(infos, inf)
+	}
+
+	return &pb.InfoMerge{ListaLogs: infos}, nil
+}
+
 //Funcion para retornar el reloj asociado al planeta solicitado por el Broker
 func (s *server) SolicitarRelojes(ctx context.Context, in *pb.SolicitudR) (*pb.Respuesta, error) {
 	nombre_planeta := in.GetPlaneta()

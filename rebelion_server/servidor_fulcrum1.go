@@ -8,6 +8,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"google.golang.org/grpc"
 
@@ -283,6 +284,308 @@ func (s *server) DeleteCity(ctx context.Context, in *pb.InfoDelete) (*pb.Respues
 	return &pb.Respuesta{Vector: vector_r}, nil
 }
 
+func remove(s []string, i int) []string {
+	s[i] = s[len(s)-1]
+	return s[:len(s)-1]
+}
+
+func merge() {
+
+	tdr := time.Tick(90 * time.Second)
+
+	for horaActual := range tdr {
+		fmt.Println("La hora es", horaActual)
+		conn, err := grpc.Dial("localhost:50053", grpc.WithInsecure(), grpc.WithBlock())
+		if err != nil {
+			log.Fatalf("did not connect: %v", err)
+		}
+		defer conn.Close()
+		//Conexion con Broker
+		c := pb.NewInformantesClient(conn)
+		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
+		defer cancel()
+
+		r, err := c.Merge(ctx, &pb.Flag{Flag: "merge"})
+		if err != nil {
+			log.Fatalf("could not greet s2: %v", err)
+		}
+
+		logs_2 := r.GetListaLogs()
+
+		/*
+			for _, log := range logs_2 {
+				fmt.Println("Reloj: ", log.Reloj)
+				fmt.Println("Planeta: ", log.Planeta)
+				fmt.Println("Logs: ", log.Logs)
+			}
+		*/
+		conn2, err2 := grpc.Dial("localhost:50054", grpc.WithInsecure(), grpc.WithBlock())
+		if err2 != nil {
+			log.Fatalf("did not connect: %v", err)
+		}
+		defer conn.Close()
+		//Conexion con Broker
+		c2 := pb.NewInformantesClient(conn2)
+		ctx2, cancel2 := context.WithTimeout(context.Background(), 30*time.Minute)
+		defer cancel2()
+
+		r2, err2 := c2.Merge(ctx2, &pb.Flag{Flag: "merge"})
+		if err2 != nil {
+			log.Fatalf("could not greet s2: %v", err2)
+		}
+
+		logs_3 := r2.GetListaLogs()
+		var planetas_s1 []string //Los planetas del servidor 1
+		var comandos_finales []string
+
+		for _, planeta := range vectores {
+			planetas_s1 = append(planetas_s1, planeta.nombre_planeta)
+
+			var ciudades_agregadas []string
+			ciudadEncontrada := 0
+			f, err := os.ReadFile("log_" + planeta.nombre_planeta + ".txt")
+			if err != nil {
+				log.Println(err)
+			}
+			lines := strings.Split(string(f), "\n")
+			lines = lines[:len(lines)-1] //Comandos de planeta de servidor 1
+
+			for _, comando := range lines {
+				s := strings.Fields(comando)
+
+				if s[0] == "UpdateName" {
+					for i, nombre := range ciudades_agregadas {
+						if s[2] == nombre {
+							ciudades_agregadas[i] = s[3]
+							break
+						}
+					}
+				} else if s[0] == "DeleteCity" {
+					for i, nombre := range ciudades_agregadas {
+						if s[2] == nombre {
+							ciudades_agregadas = remove(ciudades_agregadas, i)
+							break
+						}
+					}
+				}
+				comandos_finales = append(comandos_finales, comando)
+			}
+
+			for _, log := range logs_2 {
+				if log.Planeta == planeta.nombre_planeta {
+					log_2 := log.Logs
+
+					for _, comando := range log_2 {
+						s := strings.Fields(comando)
+
+						if s[0] == "AddCity" {
+							for _, ciudad := range ciudades_agregadas {
+								if ciudad == s[2] {
+									ciudadEncontrada = 1
+								}
+							}
+							if ciudadEncontrada == 0 {
+								ciudades_agregadas = append(ciudades_agregadas, s[2])
+								comandos_finales = append(comandos_finales, comando)
+							}
+						} else if s[0] == "UpdateName" {
+							for _, ciudad := range ciudades_agregadas {
+								if ciudad == s[3] {
+									ciudadEncontrada = 1 //Si la ciudad ya se encuentra no se agrega a ciudades y no se agrega el comando a la lista de comandos finales
+								}
+							}
+							if ciudadEncontrada == 0 {
+								ciudades_agregadas = append(ciudades_agregadas, s[3])
+								comandos_finales = append(comandos_finales, comando)
+							}
+						} else if s[0] == "DeleteCity" {
+							for i, nombre := range ciudades_agregadas {
+								if s[2] == nombre { //Se elimina
+									ciudades_agregadas = remove(ciudades_agregadas, i)
+									break
+								}
+							}
+							comandos_finales = append(comandos_finales, comando)
+						} else { //Caso de UpdateNumber
+							comandos_finales = append(comandos_finales, comando)
+						}
+					}
+
+					//Merge de relojes
+					reloj_2 := log.Reloj
+					planeta.vector[1] = reloj_2[1]
+				}
+			}
+
+			ciudadEncontrada = 0
+
+			for _, log := range logs_3 {
+				if log.Planeta == planeta.nombre_planeta {
+					log_3 := log.Logs
+
+					for _, comando := range log_3 {
+						s := strings.Fields(comando)
+
+						if s[0] == "AddCity" {
+							for _, ciudad := range ciudades_agregadas {
+								if ciudad == s[2] {
+									ciudadEncontrada = 1
+								}
+							}
+							if ciudadEncontrada == 0 {
+								ciudades_agregadas = append(ciudades_agregadas, s[2])
+								comandos_finales = append(comandos_finales, comando)
+							}
+						} else if s[0] == "UpdateName" {
+							for _, ciudad := range ciudades_agregadas {
+								if ciudad == s[3] {
+									ciudadEncontrada = 1 //Si la ciudad ya se encuentra no se agrega a ciudades y no se agrega el comando a la lista de comandos finales
+								}
+							}
+							if ciudadEncontrada == 0 {
+								ciudades_agregadas = append(ciudades_agregadas, s[3])
+								comandos_finales = append(comandos_finales, comando)
+							}
+						} else if s[0] == "DeleteCity" {
+							for i, nombre := range ciudades_agregadas {
+								if s[2] == nombre { //Se elimina
+									ciudades_agregadas = remove(ciudades_agregadas, i)
+									break
+								}
+							}
+							comandos_finales = append(comandos_finales, comando)
+						} else { //Caso de UpdateNumber
+							comandos_finales = append(comandos_finales, comando)
+						}
+					}
+
+					//Merge de relojes
+					reloj_3 := log.Reloj
+					planeta.vector[2] = reloj_3[2]
+				}
+			}
+
+			ciudadEncontrada = 0
+
+		}
+
+		//Agregar los planetas de s2 que no esten en el 1
+		planetaNuevo := 1
+		for _, planeta := range logs_2 {
+			for _, planeta_s1 := range planetas_s1 {
+				if planeta.Planeta == planeta_s1 {
+					planetaNuevo = 0
+					break
+				}
+			}
+
+			if planetaNuevo == 1 {
+				planetas_s1 = append(planetas_s1, planeta.Planeta)
+				var ciudades_agregadas []string
+				reloj_planeta := planeta.Reloj
+				ciudadEncontrada := 0
+				for _, comando := range planeta.Logs {
+					s := strings.Fields(comando)
+
+					if s[0] == "UpdateName" {
+						for i, nombre := range ciudades_agregadas {
+							if s[2] == nombre {
+								ciudades_agregadas[i] = s[3]
+								break
+							}
+						}
+					} else if s[0] == "DeleteCity" {
+						for i, nombre := range ciudades_agregadas {
+							if s[2] == nombre {
+								ciudades_agregadas = remove(ciudades_agregadas, i)
+								break
+							}
+						}
+					}
+					comandos_finales = append(comandos_finales, comando)
+				}
+
+				for _, log := range logs_3 {
+					if log.Planeta == planeta.Planeta {
+						log_3 := log.Logs
+
+						for _, comando := range log_3 {
+							s := strings.Fields(comando)
+
+							if s[0] == "AddCity" {
+								for _, ciudad := range ciudades_agregadas {
+									if ciudad == s[2] {
+										ciudadEncontrada = 1
+									}
+								}
+								if ciudadEncontrada == 0 {
+									ciudades_agregadas = append(ciudades_agregadas, s[2])
+									comandos_finales = append(comandos_finales, comando)
+								}
+							} else if s[0] == "UpdateName" {
+								for _, ciudad := range ciudades_agregadas {
+									if ciudad == s[3] {
+										ciudadEncontrada = 1 //Si la ciudad ya se encuentra no se agrega a ciudades y no se agrega el comando a la lista de comandos finales
+									}
+								}
+								if ciudadEncontrada == 0 {
+									ciudades_agregadas = append(ciudades_agregadas, s[3])
+									comandos_finales = append(comandos_finales, comando)
+								}
+							} else if s[0] == "DeleteCity" {
+								for i, nombre := range ciudades_agregadas {
+									if s[2] == nombre { //Se elimina
+										ciudades_agregadas = remove(ciudades_agregadas, i)
+										break
+									}
+								}
+								comandos_finales = append(comandos_finales, comando)
+							} else { //Caso de UpdateNumber
+								comandos_finales = append(comandos_finales, comando)
+							}
+						}
+
+						//Merge de relojes
+						reloj_3 := log.Reloj
+						reloj_planeta[2] = reloj_3[2]
+					}
+				}
+				ciudadEncontrada = 0
+
+				//Agregar al struct del s1
+
+				p := reloj_vector{nombre_planeta: planeta.Planeta, vector: reloj_planeta}
+				vectores = append(vectores, p)
+
+			}
+		}
+
+		//Revisar planetas nuevos de s3 (que no estaban ni en s1 ni s2)
+		planetaNuevo = 1
+		for _, planeta := range logs_3 {
+			for _, planeta_s1 := range planetas_s1 {
+				if planeta.Planeta == planeta_s1 {
+					planetaNuevo = 0
+					break
+				}
+			}
+
+			if planetaNuevo == 1 {
+				reloj_planeta := planeta.Reloj //[0,0,algo]
+				for _, comando := range planeta.Logs {
+					comandos_finales = append(comandos_finales, comando)
+				}
+
+				//Agregar al struct del s1
+				p := reloj_vector{nombre_planeta: planeta.Planeta, vector: reloj_planeta}
+				vectores = append(vectores, p)
+			}
+		}
+
+		fmt.Println("Comandos finales:", comandos_finales)
+	}
+
+}
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
@@ -291,6 +594,7 @@ func main() {
 	s := grpc.NewServer()
 	pb.RegisterInformantesServer(s, &server{})
 	log.Printf("Server listening at %v", lis.Addr())
+	go merge()
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}

@@ -11,6 +11,8 @@ service Informantes {
     rpc DeleteCity (InfoDelete) returns (Respuesta) {}
     rpc SolicitarRelojes (SolicitudR) returns (Respuesta) {}
     rpc SolicitarRebeldes (Solicitud) returns (Rebeldes) {}
+    rpc Merge (Flag) returns (InfoMerge) {}
+    rpc PropagarCambios (InfoActualizada) returns (Flag) {}
 }
 
 service Broker {
@@ -31,6 +33,30 @@ message SolicitudLeia{
     string nombre_planeta = 1;
     string nombre_ciudad = 2;
     repeated int32 vector =3;
+}
+
+message Flag{
+    string flag = 1;
+}
+
+message InfoMerge{
+    repeated DataMerge lista_logs = 1;
+}
+
+message DataMerge{
+    repeated int32 reloj = 1;
+    string planeta = 2;
+    repeated string logs = 3;
+}
+
+message InfoActualizada{
+    repeated DataActualizada data_actualizada = 1;
+    repeated string comandos_finales = 2;
+}
+
+message DataActualizada{
+    string planeta = 1;
+    repeated int32 reloj = 2;
 }
 
 message Rebeldes{

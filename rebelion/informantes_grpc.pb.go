@@ -24,6 +24,8 @@ type InformantesClient interface {
 	DeleteCity(ctx context.Context, in *InfoDelete, opts ...grpc.CallOption) (*Respuesta, error)
 	SolicitarRelojes(ctx context.Context, in *SolicitudR, opts ...grpc.CallOption) (*Respuesta, error)
 	SolicitarRebeldes(ctx context.Context, in *Solicitud, opts ...grpc.CallOption) (*Rebeldes, error)
+	Merge(ctx context.Context, in *Flag, opts ...grpc.CallOption) (*InfoMerge, error)
+	PropagarCambios(ctx context.Context, in *InfoActualizada, opts ...grpc.CallOption) (*Flag, error)
 }
 
 type informantesClient struct {
@@ -88,6 +90,24 @@ func (c *informantesClient) SolicitarRebeldes(ctx context.Context, in *Solicitud
 	return out, nil
 }
 
+func (c *informantesClient) Merge(ctx context.Context, in *Flag, opts ...grpc.CallOption) (*InfoMerge, error) {
+	out := new(InfoMerge)
+	err := c.cc.Invoke(ctx, "/informantes.Informantes/Merge", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *informantesClient) PropagarCambios(ctx context.Context, in *InfoActualizada, opts ...grpc.CallOption) (*Flag, error) {
+	out := new(Flag)
+	err := c.cc.Invoke(ctx, "/informantes.Informantes/PropagarCambios", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // InformantesServer is the server API for Informantes service.
 // All implementations must embed UnimplementedInformantesServer
 // for forward compatibility
@@ -98,6 +118,8 @@ type InformantesServer interface {
 	DeleteCity(context.Context, *InfoDelete) (*Respuesta, error)
 	SolicitarRelojes(context.Context, *SolicitudR) (*Respuesta, error)
 	SolicitarRebeldes(context.Context, *Solicitud) (*Rebeldes, error)
+	Merge(context.Context, *Flag) (*InfoMerge, error)
+	PropagarCambios(context.Context, *InfoActualizada) (*Flag, error)
 	mustEmbedUnimplementedInformantesServer()
 }
 
@@ -122,6 +144,12 @@ func (UnimplementedInformantesServer) SolicitarRelojes(context.Context, *Solicit
 }
 func (UnimplementedInformantesServer) SolicitarRebeldes(context.Context, *Solicitud) (*Rebeldes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SolicitarRebeldes not implemented")
+}
+func (UnimplementedInformantesServer) Merge(context.Context, *Flag) (*InfoMerge, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Merge not implemented")
+}
+func (UnimplementedInformantesServer) PropagarCambios(context.Context, *InfoActualizada) (*Flag, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PropagarCambios not implemented")
 }
 func (UnimplementedInformantesServer) mustEmbedUnimplementedInformantesServer() {}
 
@@ -244,6 +272,42 @@ func _Informantes_SolicitarRebeldes_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Informantes_Merge_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Flag)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InformantesServer).Merge(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/informantes.Informantes/Merge",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InformantesServer).Merge(ctx, req.(*Flag))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Informantes_PropagarCambios_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InfoActualizada)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InformantesServer).PropagarCambios(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/informantes.Informantes/PropagarCambios",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InformantesServer).PropagarCambios(ctx, req.(*InfoActualizada))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Informantes_ServiceDesc is the grpc.ServiceDesc for Informantes service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -274,6 +338,14 @@ var Informantes_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SolicitarRebeldes",
 			Handler:    _Informantes_SolicitarRebeldes_Handler,
+		},
+		{
+			MethodName: "Merge",
+			Handler:    _Informantes_Merge_Handler,
+		},
+		{
+			MethodName: "PropagarCambios",
+			Handler:    _Informantes_PropagarCambios_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -23,6 +23,12 @@ type reloj_vector struct {
 	vector         []int32
 }
 
+type DataMerge struct {
+	nombre_planeta string
+	vector         []int32
+	logs           []string
+}
+
 var posicion int
 var vectores []reloj_vector //Arreglo de struct reloj_vector, para guardar el planeta y su reloj de vector asociado
 
@@ -47,6 +53,36 @@ func modificarReloj(planeta string) []int32 {
 		vector_r = p.vector
 	}
 	return vector_r
+}
+
+func (s *server) Merge(ctx context.Context, in *pb.Flag) (*pb.InfoMerge, error) {
+	//var planetas []string
+	//var relojes [][]int32
+	//var logs [][]string
+
+	var infos []*pb.DataMerge
+
+	for _, reloj := range vectores {
+
+		//Leer archivo
+		f, err := os.ReadFile("log_" + reloj.nombre_planeta + ".txt")
+		if err != nil {
+			log.Println(err)
+		}
+		lines := strings.Split(string(f), "\n")
+		lines = lines[:len(lines)-1]
+
+		//Agregar a nuestros arreglos
+		/*planetas = append(planetas, reloj.nombre_planeta)
+		relojes = append(relojes, reloj.vector)
+		logs = append(logs, lines)*/
+
+		//inf := DataMerge{nombre_planeta: reloj.nombre_planeta, vector: reloj.vector, logs: lines}
+		inf := &pb.DataMerge{Reloj: reloj.vector, Planeta: reloj.nombre_planeta, Logs: lines}
+		infos = append(infos, inf)
+	}
+
+	return &pb.InfoMerge{ListaLogs: infos}, nil
 }
 
 //Funcion para retornar el reloj asociado al planeta solicitado por el Broker
