@@ -54,13 +54,11 @@ func main() {
 		fmt.Print(">>> ")
 		scanner.Scan()
 		comando = scanner.Text()
-		fmt.Println(comando)
 
 		s := strings.Fields(comando)
-		fmt.Println(s)
 
 		if s[0] != "0" && s[0] != "AddCity" && s[0] != "UpdateName" && s[0] != "UpdateNumber" && s[0] != "DeleteCity" {
-			fmt.Println("Comando incorrecto imbecil >:c")
+			fmt.Println("Comando incorrecto")
 			continue
 		}
 
@@ -119,7 +117,10 @@ func main() {
 				vectores[pos_planeta].reloj_vector = r.GetVector()
 				vectores[pos_planeta].direccion_servidor = direccion
 			}
-			fmt.Println(r.GetVector())
+
+			//Printear vector
+			fmt.Println("Planeta ", nombre_planeta, " con reloj ", r.GetVector())
+
 		} else if s[0] == "UpdateName" {
 			nombre_planeta = s[1]
 			nombre_ciudad = s[2]
@@ -133,7 +134,9 @@ func main() {
 			//Actualizar cambios
 			vectores[pos_planeta].reloj_vector = r.GetVector()
 			vectores[pos_planeta].direccion_servidor = direccion
-			fmt.Println(r.GetVector())
+
+			//Printear vector
+			fmt.Println("Planeta ", nombre_planeta, " con reloj ", r.GetVector())
 
 		} else if s[0] == "UpdateNumber" {
 			nombre_planeta = s[1]
@@ -148,7 +151,9 @@ func main() {
 			//Actualizar cambios
 			vectores[pos_planeta].reloj_vector = r.GetVector()
 			vectores[pos_planeta].direccion_servidor = direccion
-			fmt.Println(r.GetVector())
+
+			//Printear vector
+			fmt.Println("Planeta ", nombre_planeta, " con reloj ", r.GetVector())
 
 		} else if s[0] == "DeleteCity" {
 			nombre_planeta = s[1]
@@ -162,7 +167,7 @@ func main() {
 			//Actualizar cambios
 			vectores[pos_planeta].reloj_vector = r.GetVector()
 			vectores[pos_planeta].direccion_servidor = direccion
-			fmt.Println(r.GetVector())
+
 		}
 	}
 }

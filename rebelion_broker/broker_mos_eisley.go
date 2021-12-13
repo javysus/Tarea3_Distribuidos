@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"math/rand"
 	"net"
@@ -26,7 +25,6 @@ type server struct {
 func random_range(min int, max int) int {
 	rand.Seed(time.Now().UnixNano())
 	number := (rand.Intn(max-min+1) + min)
-	fmt.Println("Numero random:", number)
 	return number
 }
 
@@ -51,8 +49,6 @@ func (s *server) SolicitarIP(ctx context.Context, in *pb.Comando) (*pb.IP, error
 		log.Fatalf("could not greet: %v", err)
 	}
 	vector_s1 := r.GetVector()
-	fmt.Println(vector_informante)
-	fmt.Println(vector_s1)
 	conn.Close()
 	cancel()
 	//Lo mismo conexion con Servidor 2 y 3
@@ -69,8 +65,6 @@ func (s *server) SolicitarIP(ctx context.Context, in *pb.Comando) (*pb.IP, error
 		log.Fatalf("could not greet: %v", err)
 	}
 	vector_s2 := r.GetVector()
-	fmt.Println(vector_informante)
-	fmt.Println(vector_s2)
 	conn.Close()
 	cancel()
 
@@ -86,8 +80,6 @@ func (s *server) SolicitarIP(ctx context.Context, in *pb.Comando) (*pb.IP, error
 		log.Fatalf("could not greet: %v", err)
 	}
 	vector_s3 := r.GetVector()
-	fmt.Println(vector_informante)
-	fmt.Println(vector_s3)
 	conn.Close()
 	cancel()
 
@@ -133,8 +125,6 @@ func (s *server) GetNumberRebeldes(ctx context.Context, in *pb.SolicitudLeia) (*
 		log.Fatalf("could not greet: %v", err)
 	}
 	vector_s1 := r.GetVector()
-	fmt.Println(vector_informante)
-	fmt.Println(vector_s1)
 	conn.Close()
 	cancel()
 	//Lo mismo conexion con Servidor 2 y 3
@@ -151,8 +141,6 @@ func (s *server) GetNumberRebeldes(ctx context.Context, in *pb.SolicitudLeia) (*
 		log.Fatalf("could not greet: %v", err)
 	}
 	vector_s2 := r.GetVector()
-	fmt.Println(vector_informante)
-	fmt.Println(vector_s2)
 	conn.Close()
 	cancel()
 
@@ -168,8 +156,6 @@ func (s *server) GetNumberRebeldes(ctx context.Context, in *pb.SolicitudLeia) (*
 		log.Fatalf("could not greet: %v", err)
 	}
 	vector_s3 := r.GetVector()
-	fmt.Println(vector_informante)
-	fmt.Println(vector_s3)
 	conn.Close()
 	cancel()
 
@@ -207,8 +193,6 @@ func (s *server) GetNumberRebeldes(ctx context.Context, in *pb.SolicitudLeia) (*
 	}
 	defer conn.Close()
 	defer cancel()
-
-	fmt.Println("Vector a retornar:", rr.GetVector())
 
 	return &pb.Rebeldes{Rebeldes: rr.GetRebeldes(), Vector: rr.GetVector(), Servidor: rr.GetServidor()}, nil
 }

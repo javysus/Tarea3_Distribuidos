@@ -103,6 +103,5 @@ func main() {
 		} else {
 			fmt.Println("Numero de rebeldes: ", cant_rebeldes)
 		}
-		fmt.Println("Reloj del planeta: ", reloj_planeta)
 	}
 }

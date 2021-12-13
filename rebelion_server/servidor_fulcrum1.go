@@ -66,8 +66,6 @@ func (s *server) SolicitarRelojes(ctx context.Context, in *pb.SolicitudR) (*pb.R
 	if nuevo_planeta == 1 { //Nuevo planeta asi que no tiene cambios
 		vector_r = []int32{0, 0, 0}
 	}
-
-	fmt.Println(vector_r)
 	return &pb.Respuesta{Vector: vector_r}, nil
 }
 
@@ -295,12 +293,15 @@ func merge() {
 
 	for horaActual := range tdr {
 		fmt.Println("La hora es", horaActual)
+
+		vectores_copia := vectores
+
 		conn, err := grpc.Dial("localhost:50053", grpc.WithInsecure(), grpc.WithBlock())
 		if err != nil {
 			log.Fatalf("did not connect: %v", err)
 		}
 		defer conn.Close()
-		//Conexion con Broker
+
 		c := pb.NewInformantesClient(conn)
 		ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
 		defer cancel()
@@ -324,7 +325,7 @@ func merge() {
 			log.Fatalf("did not connect: %v", err)
 		}
 		defer conn.Close()
-		//Conexion con Broker
+
 		c2 := pb.NewInformantesClient(conn2)
 		ctx2, cancel2 := context.WithTimeout(context.Background(), 30*time.Minute)
 		defer cancel2()
@@ -583,6 +584,180 @@ func merge() {
 		}
 
 		fmt.Println("Comandos finales:", comandos_finales)
+
+		//Eliminar archivos de servidor 1
+
+		fmt.Println("Vectores copia:", vectores_copia)
+
+		for _, reloj := range vectores_copia {
+			//Eliminar archivo de planeta y su log, y volver a crearlo
+			e := os.Remove(reloj.nombre_planeta + ".txt")
+			if e != nil {
+				log.Fatal(e)
+			}
+
+			e = os.Remove("log_" + reloj.nombre_planeta + ".txt")
+			if e != nil {
+				log.Fatal(e)
+			}
+		}
+
+		//Actualizar archivos en servidor 1
+
+		for _, reloj := range vectores {
+
+			//Crear los nuevos logs
+
+			f, err := os.OpenFile("log_"+reloj.nombre_planeta+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+			if err != nil {
+				log.Println(err)
+			}
+			f.Close()
+		}
+		for _, comando := range comandos_finales {
+			s := strings.Fields(comando)
+
+			if s[0] == "AddCity" {
+				f, err := os.OpenFile(s[1]+".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+				if err != nil {
+					log.Println(err)
+				}
+				if _, err := f.WriteString(s[1] + " " + s[2] + " " + s[3] + "\n"); err != nil {
+					log.Println(err)
+				}
+				f.Close()
+
+			} else if s[0] == "UpdateNumber" {
+				f, err := os.ReadFile(s[1] + ".txt")
+				if err != nil {
+					log.Println(err)
+				}
+
+				lines := strings.Split(string(f), "\n")
+				lines = lines[:len(lines)-1]
+
+				for i, line := range lines {
+					if strings.Contains(line, s[2]) {
+						lines[i] = s[1] + " " + s[2] + " " + s[3]
+					}
+				}
+
+				e := os.Remove(s[1] + ".txt")
+				if e != nil {
+					log.Fatal(e)
+				}
+
+				a, er := os.OpenFile(s[1]+".txt", os.O_CREATE|os.O_WRONLY, 0644)
+				if er != nil {
+					log.Println(err)
+				}
+
+				for _, line := range lines {
+					if _, err := a.WriteString(line + "\n"); err != nil {
+						log.Println(err)
+					}
+				}
+				a.Close()
+
+			} else if s[0] == "UpdateName" {
+				nombre_planeta := s[1]
+				nombre_ciudad := s[2]
+				nuevo_valor := s[3]
+
+				f, err := os.ReadFile(nombre_planeta + ".txt")
+				if err != nil {
+					log.Println(err)
+				}
+
+				lines := strings.Split(string(f), "\n")
+				lines = lines[:len(lines)-1]
+				for i, line := range lines {
+					if strings.Contains(line, nombre_ciudad) {
+						line_data := strings.Fields(line)
+						lines[i] = nombre_planeta + " " + nuevo_valor + " " + line_data[2]
+					}
+				}
+
+				e := os.Remove(nombre_planeta + ".txt")
+				if e != nil {
+					log.Fatal(e)
+				}
+
+				a, er := os.OpenFile(nombre_planeta+".txt", os.O_CREATE|os.O_WRONLY, 0644)
+				if er != nil {
+					log.Println(err)
+				}
+
+				for _, line := range lines {
+					if _, err := a.WriteString(line + "\n"); err != nil {
+						log.Println(err)
+					}
+				}
+				a.Close()
+
+			} else if s[0] == "DeleteCity" {
+				nombre_planeta := s[1]
+				nombre_ciudad := s[2]
+
+				f, err := os.ReadFile(nombre_planeta + ".txt")
+				if err != nil {
+					log.Println(err)
+				}
+
+				lines := strings.Split(string(f), "\n")
+				lines = lines[:len(lines)-1]
+				var newlines []string
+				for i, line := range lines {
+					if strings.Contains(line, nombre_ciudad) {
+						continue
+					}
+					newlines = append(newlines, lines[i])
+				}
+
+				e := os.Remove(nombre_planeta + ".txt")
+				if e != nil {
+					log.Fatal(e)
+				}
+
+				a, er := os.OpenFile(nombre_planeta+".txt", os.O_CREATE|os.O_WRONLY, 0644)
+				if er != nil {
+					log.Println(err)
+				}
+
+				for _, line := range newlines {
+					if _, err := a.WriteString(line + "\n"); err != nil {
+						log.Println(err)
+					}
+				}
+				a.Close()
+			}
+		}
+
+		var relojes []*pb.DataActualizada
+
+		//Agregar todos los relojes del s1 actualizados
+
+		for _, reloj := range vectores {
+
+			r_s1 := &pb.DataActualizada{Planeta: reloj.nombre_planeta, Reloj: reloj.vector}
+			relojes = append(relojes, r_s1)
+
+			fmt.Println(reloj.nombre_planeta, ": ", reloj.vector)
+		}
+
+		respuesta_s2, err := c.PropagarCambios(ctx, &pb.InfoActualizada{DataActualizada: relojes, ComandosFinales: comandos_finales})
+		if err != nil {
+			log.Fatalf("could not greet s2: %v", err)
+		}
+
+		fmt.Println("Respuesta servidor 2:", respuesta_s2)
+
+		respuesta_s3, err := c2.PropagarCambios(ctx, &pb.InfoActualizada{DataActualizada: relojes, ComandosFinales: comandos_finales})
+		if err != nil {
+			log.Fatalf("could not greet s2: %v", err)
+		}
+
+		fmt.Println("Respuesta servidor 3:", respuesta_s3)
 	}
 
 }
