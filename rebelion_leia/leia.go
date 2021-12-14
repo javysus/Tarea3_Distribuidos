@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	address = "localhost:50052"
+	address = "dist40:50052" //Conexion con broker
 )
 
 type registros struct {

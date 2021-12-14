@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	address = "localhost:50052"
+	address = "dist40:50052" //Conexion con broker
 )
 
 var nombre_planeta string
@@ -47,7 +47,7 @@ func main() {
 	c := pb.NewBrokerClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Minute)
 	defer cancel()
-	fmt.Println("Informante Ahsoka Tano")
+	fmt.Println("Informante Thrawn")
 	fmt.Println("Introduzca su comando o 0 para salir: ")
 	for opcion == 1 {
 		nuevo_planeta := 1 //Flag para distinguir cuando se agrega un nuevo planeta
@@ -168,6 +168,8 @@ func main() {
 			vectores[pos_planeta].reloj_vector = r.GetVector()
 			vectores[pos_planeta].direccion_servidor = direccion
 
+			//Printear vector
+			fmt.Println("Planeta ", nombre_planeta, " con reloj ", r.GetVector())
 		}
 	}
 }

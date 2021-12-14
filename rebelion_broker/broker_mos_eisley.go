@@ -16,7 +16,7 @@ const (
 	port = ":50052"
 )
 
-var direcciones = [3]string{"localhost:50051", "localhost:50053", "localhost:50054"}
+var direcciones = [3]string{"dist39:50051", "dist38:50053", "dist37:50054"} //Direcciones de servidores
 
 type server struct {
 	pb.UnimplementedBrokerServer

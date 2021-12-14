@@ -26,6 +26,7 @@ type reloj_vector struct {
 
 var posicion int
 var vectores []reloj_vector //Arreglo de struct reloj_vector, para guardar el planeta y su reloj de vector asociado
+var comandos_finales []string
 
 type server struct {
 	pb.UnimplementedInformantesServer
@@ -161,7 +162,6 @@ func (s *server) UpdateName(ctx context.Context, in *pb.InfoUpdateName) (*pb.Res
 	}
 
 	for _, line := range lines {
-		fmt.Println("Linea a escribir: ", line)
 		if _, err := a.WriteString(line + "\n"); err != nil {
 			log.Println(err)
 		}
@@ -289,14 +289,14 @@ func remove(s []string, i int) []string {
 
 func merge() {
 
-	tdr := time.Tick(90 * time.Second)
+	tdr := time.Tick(120 * time.Second)
 
 	for horaActual := range tdr {
 		fmt.Println("La hora es", horaActual)
 
 		vectores_copia := vectores
 
-		conn, err := grpc.Dial("localhost:50053", grpc.WithInsecure(), grpc.WithBlock())
+		conn, err := grpc.Dial("dist38:50053", grpc.WithInsecure(), grpc.WithBlock()) //Conexion servidor 2
 		if err != nil {
 			log.Fatalf("did not connect: %v", err)
 		}
@@ -313,14 +313,7 @@ func merge() {
 
 		logs_2 := r.GetListaLogs()
 
-		/*
-			for _, log := range logs_2 {
-				fmt.Println("Reloj: ", log.Reloj)
-				fmt.Println("Planeta: ", log.Planeta)
-				fmt.Println("Logs: ", log.Logs)
-			}
-		*/
-		conn2, err2 := grpc.Dial("localhost:50054", grpc.WithInsecure(), grpc.WithBlock())
+		conn2, err2 := grpc.Dial("dist37:50054", grpc.WithInsecure(), grpc.WithBlock()) //Conexion servidor 3
 		if err2 != nil {
 			log.Fatalf("did not connect: %v", err)
 		}
@@ -337,7 +330,6 @@ func merge() {
 
 		logs_3 := r2.GetListaLogs()
 		var planetas_s1 []string //Los planetas del servidor 1
-		var comandos_finales []string
 
 		for _, planeta := range vectores {
 			planetas_s1 = append(planetas_s1, planeta.nombre_planeta)
@@ -361,6 +353,7 @@ func merge() {
 							break
 						}
 					}
+					comandos_finales = append(comandos_finales, comando)
 				} else if s[0] == "DeleteCity" {
 					for i, nombre := range ciudades_agregadas {
 						if s[2] == nombre {
@@ -368,8 +361,19 @@ func merge() {
 							break
 						}
 					}
+					comandos_finales = append(comandos_finales, comando)
+				} else if s[0] == "AddCity" {
+					for _, ciudad := range ciudades_agregadas {
+						if ciudad == s[2] {
+							ciudadEncontrada = 1
+						}
+					}
+					if ciudadEncontrada == 0 {
+						ciudades_agregadas = append(ciudades_agregadas, s[2])
+						comandos_finales = append(comandos_finales, comando)
+					}
 				}
-				comandos_finales = append(comandos_finales, comando)
+				ciudadEncontrada = 0
 			}
 
 			for _, log := range logs_2 {
@@ -495,6 +499,7 @@ func merge() {
 								break
 							}
 						}
+						comandos_finales = append(comandos_finales, comando)
 					} else if s[0] == "DeleteCity" {
 						for i, nombre := range ciudades_agregadas {
 							if s[2] == nombre {
@@ -502,8 +507,19 @@ func merge() {
 								break
 							}
 						}
+						comandos_finales = append(comandos_finales, comando)
+					} else if s[0] == "AddCity" {
+						for _, ciudad := range ciudades_agregadas {
+							if ciudad == s[2] {
+								ciudadEncontrada = 1
+							}
+						}
+						if ciudadEncontrada == 0 {
+							ciudades_agregadas = append(ciudades_agregadas, s[2])
+							comandos_finales = append(comandos_finales, comando)
+						}
 					}
-					comandos_finales = append(comandos_finales, comando)
+					ciudadEncontrada = 0
 				}
 
 				for _, log := range logs_3 {
@@ -583,11 +599,7 @@ func merge() {
 			}
 		}
 
-		fmt.Println("Comandos finales:", comandos_finales)
-
 		//Eliminar archivos de servidor 1
-
-		fmt.Println("Vectores copia:", vectores_copia)
 
 		for _, reloj := range vectores_copia {
 			//Eliminar archivo de planeta y su log, y volver a crearlo
