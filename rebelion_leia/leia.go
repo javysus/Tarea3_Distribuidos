@@ -50,13 +50,11 @@ func main() {
 		fmt.Print(">>> ")
 		scanner.Scan()
 		comando = scanner.Text()
-		fmt.Println(comando)
 
 		s := strings.Fields(comando)
-		fmt.Println(s)
 
 		if s[0] != "0" && s[0] != "GetNumberRebelds" {
-			fmt.Println("Comando incorrecto imbecil >:c")
+			fmt.Println("Comando incorrecto")
 			continue
 		}
 
@@ -101,7 +99,8 @@ func main() {
 		} else if cant_rebeldes == -2 {
 			fmt.Println("El planeta no existe")
 		} else {
-			fmt.Println("Numero de rebeldes: ", cant_rebeldes)
+			fmt.Println("Numero de rebeldes:", cant_rebeldes)
+			fmt.Println("Reloj: ", reloj_planeta)
 		}
 	}
 }
