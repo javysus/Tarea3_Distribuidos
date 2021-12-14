@@ -20,8 +20,6 @@ Ejecución:
 
 - Para la correcta ejecucion del programa se deben ejecutar los archivos en el siguiente orden:
 servidor_fulcrum3 - servidor_fulcrum2 - servidor_fulcrum1 - broker_mos_eisley - ahsoka - thrawn - leia
-- Abrir los puertos 5051, 5052, 5053 y 5054 para cada máquina virtual. Nosotros utilizamos el siguiente comando:
-sudo firewall-cmd --zone=public --add-port=50052/tcp --permanent (para cada puerto)
 
 Como ejecutar el servidor fulcrum 3:
 - Ubicarse en la maquina dist37
