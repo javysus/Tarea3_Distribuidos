@@ -20,18 +20,515 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Solicitud struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	NombrePlaneta string `protobuf:"bytes,1,opt,name=nombre_planeta,json=nombrePlaneta,proto3" json:"nombre_planeta,omitempty"`
+	NombreCiudad  string `protobuf:"bytes,2,opt,name=nombre_ciudad,json=nombreCiudad,proto3" json:"nombre_ciudad,omitempty"`
+}
+
+func (x *Solicitud) Reset() {
+	*x = Solicitud{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Solicitud) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Solicitud) ProtoMessage() {}
+
+func (x *Solicitud) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Solicitud.ProtoReflect.Descriptor instead.
+func (*Solicitud) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Solicitud) GetNombrePlaneta() string {
+	if x != nil {
+		return x.NombrePlaneta
+	}
+	return ""
+}
+
+func (x *Solicitud) GetNombreCiudad() string {
+	if x != nil {
+		return x.NombreCiudad
+	}
+	return ""
+}
+
+type SolicitudR struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Planeta string `protobuf:"bytes,1,opt,name=planeta,proto3" json:"planeta,omitempty"`
+}
+
+func (x *SolicitudR) Reset() {
+	*x = SolicitudR{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SolicitudR) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SolicitudR) ProtoMessage() {}
+
+func (x *SolicitudR) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SolicitudR.ProtoReflect.Descriptor instead.
+func (*SolicitudR) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *SolicitudR) GetPlaneta() string {
+	if x != nil {
+		return x.Planeta
+	}
+	return ""
+}
+
+type SolicitudLeia struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	NombrePlaneta string  `protobuf:"bytes,1,opt,name=nombre_planeta,json=nombrePlaneta,proto3" json:"nombre_planeta,omitempty"`
+	NombreCiudad  string  `protobuf:"bytes,2,opt,name=nombre_ciudad,json=nombreCiudad,proto3" json:"nombre_ciudad,omitempty"`
+	Vector        []int32 `protobuf:"varint,3,rep,packed,name=vector,proto3" json:"vector,omitempty"`
+}
+
+func (x *SolicitudLeia) Reset() {
+	*x = SolicitudLeia{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *SolicitudLeia) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SolicitudLeia) ProtoMessage() {}
+
+func (x *SolicitudLeia) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SolicitudLeia.ProtoReflect.Descriptor instead.
+func (*SolicitudLeia) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *SolicitudLeia) GetNombrePlaneta() string {
+	if x != nil {
+		return x.NombrePlaneta
+	}
+	return ""
+}
+
+func (x *SolicitudLeia) GetNombreCiudad() string {
+	if x != nil {
+		return x.NombreCiudad
+	}
+	return ""
+}
+
+func (x *SolicitudLeia) GetVector() []int32 {
+	if x != nil {
+		return x.Vector
+	}
+	return nil
+}
+
+type Flag struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Flag string `protobuf:"bytes,1,opt,name=flag,proto3" json:"flag,omitempty"`
+}
+
+func (x *Flag) Reset() {
+	*x = Flag{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Flag) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Flag) ProtoMessage() {}
+
+func (x *Flag) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Flag.ProtoReflect.Descriptor instead.
+func (*Flag) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *Flag) GetFlag() string {
+	if x != nil {
+		return x.Flag
+	}
+	return ""
+}
+
+type InfoMerge struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ListaLogs []*DataMerge `protobuf:"bytes,1,rep,name=lista_logs,json=listaLogs,proto3" json:"lista_logs,omitempty"`
+}
+
+func (x *InfoMerge) Reset() {
+	*x = InfoMerge{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *InfoMerge) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InfoMerge) ProtoMessage() {}
+
+func (x *InfoMerge) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InfoMerge.ProtoReflect.Descriptor instead.
+func (*InfoMerge) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *InfoMerge) GetListaLogs() []*DataMerge {
+	if x != nil {
+		return x.ListaLogs
+	}
+	return nil
+}
+
+type DataMerge struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Reloj   []int32  `protobuf:"varint,1,rep,packed,name=reloj,proto3" json:"reloj,omitempty"`
+	Planeta string   `protobuf:"bytes,2,opt,name=planeta,proto3" json:"planeta,omitempty"`
+	Logs    []string `protobuf:"bytes,3,rep,name=logs,proto3" json:"logs,omitempty"`
+}
+
+func (x *DataMerge) Reset() {
+	*x = DataMerge{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DataMerge) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DataMerge) ProtoMessage() {}
+
+func (x *DataMerge) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DataMerge.ProtoReflect.Descriptor instead.
+func (*DataMerge) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *DataMerge) GetReloj() []int32 {
+	if x != nil {
+		return x.Reloj
+	}
+	return nil
+}
+
+func (x *DataMerge) GetPlaneta() string {
+	if x != nil {
+		return x.Planeta
+	}
+	return ""
+}
+
+func (x *DataMerge) GetLogs() []string {
+	if x != nil {
+		return x.Logs
+	}
+	return nil
+}
+
+type InfoActualizada struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	DataActualizada []*DataActualizada `protobuf:"bytes,1,rep,name=data_actualizada,json=dataActualizada,proto3" json:"data_actualizada,omitempty"`
+	ComandosFinales []string           `protobuf:"bytes,2,rep,name=comandos_finales,json=comandosFinales,proto3" json:"comandos_finales,omitempty"`
+}
+
+func (x *InfoActualizada) Reset() {
+	*x = InfoActualizada{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *InfoActualizada) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InfoActualizada) ProtoMessage() {}
+
+func (x *InfoActualizada) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InfoActualizada.ProtoReflect.Descriptor instead.
+func (*InfoActualizada) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *InfoActualizada) GetDataActualizada() []*DataActualizada {
+	if x != nil {
+		return x.DataActualizada
+	}
+	return nil
+}
+
+func (x *InfoActualizada) GetComandosFinales() []string {
+	if x != nil {
+		return x.ComandosFinales
+	}
+	return nil
+}
+
+type DataActualizada struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Planeta string  `protobuf:"bytes,1,opt,name=planeta,proto3" json:"planeta,omitempty"`
+	Reloj   []int32 `protobuf:"varint,2,rep,packed,name=reloj,proto3" json:"reloj,omitempty"`
+}
+
+func (x *DataActualizada) Reset() {
+	*x = DataActualizada{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DataActualizada) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DataActualizada) ProtoMessage() {}
+
+func (x *DataActualizada) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DataActualizada.ProtoReflect.Descriptor instead.
+func (*DataActualizada) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *DataActualizada) GetPlaneta() string {
+	if x != nil {
+		return x.Planeta
+	}
+	return ""
+}
+
+func (x *DataActualizada) GetReloj() []int32 {
+	if x != nil {
+		return x.Reloj
+	}
+	return nil
+}
+
+type Rebeldes struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Rebeldes int32   `protobuf:"varint,1,opt,name=rebeldes,proto3" json:"rebeldes,omitempty"`
+	Vector   []int32 `protobuf:"varint,2,rep,packed,name=vector,proto3" json:"vector,omitempty"`
+	Servidor int32   `protobuf:"varint,3,opt,name=servidor,proto3" json:"servidor,omitempty"`
+}
+
+func (x *Rebeldes) Reset() {
+	*x = Rebeldes{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_rebelion_informantes_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Rebeldes) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Rebeldes) ProtoMessage() {}
+
+func (x *Rebeldes) ProtoReflect() protoreflect.Message {
+	mi := &file_rebelion_informantes_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Rebeldes.ProtoReflect.Descriptor instead.
+func (*Rebeldes) Descriptor() ([]byte, []int) {
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *Rebeldes) GetRebeldes() int32 {
+	if x != nil {
+		return x.Rebeldes
+	}
+	return 0
+}
+
+func (x *Rebeldes) GetVector() []int32 {
+	if x != nil {
+		return x.Vector
+	}
+	return nil
+}
+
+func (x *Rebeldes) GetServidor() int32 {
+	if x != nil {
+		return x.Servidor
+	}
+	return 0
+}
+
 type Comando struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Comando string `protobuf:"bytes,1,opt,name=comando,proto3" json:"comando,omitempty"`
+	Comando string  `protobuf:"bytes,1,opt,name=comando,proto3" json:"comando,omitempty"`
+	Vector  []int32 `protobuf:"varint,2,rep,packed,name=vector,proto3" json:"vector,omitempty"`
+	Planeta string  `protobuf:"bytes,3,opt,name=planeta,proto3" json:"planeta,omitempty"`
 }
 
 func (x *Comando) Reset() {
 	*x = Comando{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rebelion_informantes_proto_msgTypes[0]
+		mi := &file_rebelion_informantes_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -44,7 +541,7 @@ func (x *Comando) String() string {
 func (*Comando) ProtoMessage() {}
 
 func (x *Comando) ProtoReflect() protoreflect.Message {
-	mi := &file_rebelion_informantes_proto_msgTypes[0]
+	mi := &file_rebelion_informantes_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -57,12 +554,26 @@ func (x *Comando) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Comando.ProtoReflect.Descriptor instead.
 func (*Comando) Descriptor() ([]byte, []int) {
-	return file_rebelion_informantes_proto_rawDescGZIP(), []int{0}
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *Comando) GetComando() string {
 	if x != nil {
 		return x.Comando
+	}
+	return ""
+}
+
+func (x *Comando) GetVector() []int32 {
+	if x != nil {
+		return x.Vector
+	}
+	return nil
+}
+
+func (x *Comando) GetPlaneta() string {
+	if x != nil {
+		return x.Planeta
 	}
 	return ""
 }
@@ -78,7 +589,7 @@ type IP struct {
 func (x *IP) Reset() {
 	*x = IP{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rebelion_informantes_proto_msgTypes[1]
+		mi := &file_rebelion_informantes_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -91,7 +602,7 @@ func (x *IP) String() string {
 func (*IP) ProtoMessage() {}
 
 func (x *IP) ProtoReflect() protoreflect.Message {
-	mi := &file_rebelion_informantes_proto_msgTypes[1]
+	mi := &file_rebelion_informantes_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -104,7 +615,7 @@ func (x *IP) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use IP.ProtoReflect.Descriptor instead.
 func (*IP) Descriptor() ([]byte, []int) {
-	return file_rebelion_informantes_proto_rawDescGZIP(), []int{1}
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *IP) GetDireccion() string {
@@ -127,7 +638,7 @@ type Info struct {
 func (x *Info) Reset() {
 	*x = Info{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rebelion_informantes_proto_msgTypes[2]
+		mi := &file_rebelion_informantes_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -140,7 +651,7 @@ func (x *Info) String() string {
 func (*Info) ProtoMessage() {}
 
 func (x *Info) ProtoReflect() protoreflect.Message {
-	mi := &file_rebelion_informantes_proto_msgTypes[2]
+	mi := &file_rebelion_informantes_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -153,7 +664,7 @@ func (x *Info) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Info.ProtoReflect.Descriptor instead.
 func (*Info) Descriptor() ([]byte, []int) {
-	return file_rebelion_informantes_proto_rawDescGZIP(), []int{2}
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *Info) GetNombrePlaneta() string {
@@ -188,7 +699,7 @@ type Respuesta struct {
 func (x *Respuesta) Reset() {
 	*x = Respuesta{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rebelion_informantes_proto_msgTypes[3]
+		mi := &file_rebelion_informantes_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -201,7 +712,7 @@ func (x *Respuesta) String() string {
 func (*Respuesta) ProtoMessage() {}
 
 func (x *Respuesta) ProtoReflect() protoreflect.Message {
-	mi := &file_rebelion_informantes_proto_msgTypes[3]
+	mi := &file_rebelion_informantes_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -214,7 +725,7 @@ func (x *Respuesta) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Respuesta.ProtoReflect.Descriptor instead.
 func (*Respuesta) Descriptor() ([]byte, []int) {
-	return file_rebelion_informantes_proto_rawDescGZIP(), []int{3}
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *Respuesta) GetVector() []int32 {
@@ -236,7 +747,7 @@ type InfoDelete struct {
 func (x *InfoDelete) Reset() {
 	*x = InfoDelete{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rebelion_informantes_proto_msgTypes[4]
+		mi := &file_rebelion_informantes_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -249,7 +760,7 @@ func (x *InfoDelete) String() string {
 func (*InfoDelete) ProtoMessage() {}
 
 func (x *InfoDelete) ProtoReflect() protoreflect.Message {
-	mi := &file_rebelion_informantes_proto_msgTypes[4]
+	mi := &file_rebelion_informantes_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -262,7 +773,7 @@ func (x *InfoDelete) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InfoDelete.ProtoReflect.Descriptor instead.
 func (*InfoDelete) Descriptor() ([]byte, []int) {
-	return file_rebelion_informantes_proto_rawDescGZIP(), []int{4}
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *InfoDelete) GetNombrePlaneta() string {
@@ -292,7 +803,7 @@ type InfoUpdateName struct {
 func (x *InfoUpdateName) Reset() {
 	*x = InfoUpdateName{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_rebelion_informantes_proto_msgTypes[5]
+		mi := &file_rebelion_informantes_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -305,7 +816,7 @@ func (x *InfoUpdateName) String() string {
 func (*InfoUpdateName) ProtoMessage() {}
 
 func (x *InfoUpdateName) ProtoReflect() protoreflect.Message {
-	mi := &file_rebelion_informantes_proto_msgTypes[5]
+	mi := &file_rebelion_informantes_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -318,7 +829,7 @@ func (x *InfoUpdateName) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InfoUpdateName.ProtoReflect.Descriptor instead.
 func (*InfoUpdateName) Descriptor() ([]byte, []int) {
-	return file_rebelion_informantes_proto_rawDescGZIP(), []int{5}
+	return file_rebelion_informantes_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *InfoUpdateName) GetNombrePlaneta() string {
@@ -347,9 +858,57 @@ var File_rebelion_informantes_proto protoreflect.FileDescriptor
 var file_rebelion_informantes_proto_rawDesc = []byte{
 	0x0a, 0x1a, 0x72, 0x65, 0x62, 0x65, 0x6c, 0x69, 0x6f, 0x6e, 0x2f, 0x69, 0x6e, 0x66, 0x6f, 0x72,
 	0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x69, 0x6e,
-	0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x22, 0x23, 0x0a, 0x07, 0x43, 0x6f, 0x6d,
-	0x61, 0x6e, 0x64, 0x6f, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6d, 0x61, 0x6e, 0x64, 0x6f, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6d, 0x61, 0x6e, 0x64, 0x6f, 0x22, 0x22,
+	0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x22, 0x57, 0x0a, 0x09, 0x53, 0x6f, 0x6c,
+	0x69, 0x63, 0x69, 0x74, 0x75, 0x64, 0x12, 0x25, 0x0a, 0x0e, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65,
+	0x5f, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d,
+	0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x12, 0x23, 0x0a,
+	0x0d, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x5f, 0x63, 0x69, 0x75, 0x64, 0x61, 0x64, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x43, 0x69, 0x75, 0x64,
+	0x61, 0x64, 0x22, 0x26, 0x0a, 0x0a, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x75, 0x64, 0x52,
+	0x12, 0x18, 0x0a, 0x07, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x07, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x22, 0x73, 0x0a, 0x0d, 0x53, 0x6f,
+	0x6c, 0x69, 0x63, 0x69, 0x74, 0x75, 0x64, 0x4c, 0x65, 0x69, 0x61, 0x12, 0x25, 0x0a, 0x0e, 0x6e,
+	0x6f, 0x6d, 0x62, 0x72, 0x65, 0x5f, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0d, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x50, 0x6c, 0x61, 0x6e, 0x65,
+	0x74, 0x61, 0x12, 0x23, 0x0a, 0x0d, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x5f, 0x63, 0x69, 0x75,
+	0x64, 0x61, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x6e, 0x6f, 0x6d, 0x62, 0x72,
+	0x65, 0x43, 0x69, 0x75, 0x64, 0x61, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x76, 0x65, 0x63, 0x74, 0x6f,
+	0x72, 0x18, 0x03, 0x20, 0x03, 0x28, 0x05, 0x52, 0x06, 0x76, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x22,
+	0x1a, 0x0a, 0x04, 0x46, 0x6c, 0x61, 0x67, 0x12, 0x12, 0x0a, 0x04, 0x66, 0x6c, 0x61, 0x67, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x66, 0x6c, 0x61, 0x67, 0x22, 0x42, 0x0a, 0x09, 0x49,
+	0x6e, 0x66, 0x6f, 0x4d, 0x65, 0x72, 0x67, 0x65, 0x12, 0x35, 0x0a, 0x0a, 0x6c, 0x69, 0x73, 0x74,
+	0x61, 0x5f, 0x6c, 0x6f, 0x67, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x69,
+	0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x44, 0x61, 0x74, 0x61, 0x4d,
+	0x65, 0x72, 0x67, 0x65, 0x52, 0x09, 0x6c, 0x69, 0x73, 0x74, 0x61, 0x4c, 0x6f, 0x67, 0x73, 0x22,
+	0x4f, 0x0a, 0x09, 0x44, 0x61, 0x74, 0x61, 0x4d, 0x65, 0x72, 0x67, 0x65, 0x12, 0x14, 0x0a, 0x05,
+	0x72, 0x65, 0x6c, 0x6f, 0x6a, 0x18, 0x01, 0x20, 0x03, 0x28, 0x05, 0x52, 0x05, 0x72, 0x65, 0x6c,
+	0x6f, 0x6a, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x12, 0x12, 0x0a, 0x04,
+	0x6c, 0x6f, 0x67, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x04, 0x6c, 0x6f, 0x67, 0x73,
+	0x22, 0x85, 0x01, 0x0a, 0x0f, 0x49, 0x6e, 0x66, 0x6f, 0x41, 0x63, 0x74, 0x75, 0x61, 0x6c, 0x69,
+	0x7a, 0x61, 0x64, 0x61, 0x12, 0x47, 0x0a, 0x10, 0x64, 0x61, 0x74, 0x61, 0x5f, 0x61, 0x63, 0x74,
+	0x75, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x64, 0x61, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1c,
+	0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x44, 0x61, 0x74,
+	0x61, 0x41, 0x63, 0x74, 0x75, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x64, 0x61, 0x52, 0x0f, 0x64, 0x61,
+	0x74, 0x61, 0x41, 0x63, 0x74, 0x75, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x64, 0x61, 0x12, 0x29, 0x0a,
+	0x10, 0x63, 0x6f, 0x6d, 0x61, 0x6e, 0x64, 0x6f, 0x73, 0x5f, 0x66, 0x69, 0x6e, 0x61, 0x6c, 0x65,
+	0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0f, 0x63, 0x6f, 0x6d, 0x61, 0x6e, 0x64, 0x6f,
+	0x73, 0x46, 0x69, 0x6e, 0x61, 0x6c, 0x65, 0x73, 0x22, 0x41, 0x0a, 0x0f, 0x44, 0x61, 0x74, 0x61,
+	0x41, 0x63, 0x74, 0x75, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x64, 0x61, 0x12, 0x18, 0x0a, 0x07, 0x70,
+	0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x6c,
+	0x61, 0x6e, 0x65, 0x74, 0x61, 0x12, 0x14, 0x0a, 0x05, 0x72, 0x65, 0x6c, 0x6f, 0x6a, 0x18, 0x02,
+	0x20, 0x03, 0x28, 0x05, 0x52, 0x05, 0x72, 0x65, 0x6c, 0x6f, 0x6a, 0x22, 0x5a, 0x0a, 0x08, 0x52,
+	0x65, 0x62, 0x65, 0x6c, 0x64, 0x65, 0x73, 0x12, 0x1a, 0x0a, 0x08, 0x72, 0x65, 0x62, 0x65, 0x6c,
+	0x64, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x72, 0x65, 0x62, 0x65, 0x6c,
+	0x64, 0x65, 0x73, 0x12, 0x16, 0x0a, 0x06, 0x76, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20,
+	0x03, 0x28, 0x05, 0x52, 0x06, 0x76, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x12, 0x1a, 0x0a, 0x08, 0x73,
+	0x65, 0x72, 0x76, 0x69, 0x64, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x05, 0x52, 0x08, 0x73,
+	0x65, 0x72, 0x76, 0x69, 0x64, 0x6f, 0x72, 0x22, 0x55, 0x0a, 0x07, 0x43, 0x6f, 0x6d, 0x61, 0x6e,
+	0x64, 0x6f, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x6f, 0x6d, 0x61, 0x6e, 0x64, 0x6f, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x6f, 0x6d, 0x61, 0x6e, 0x64, 0x6f, 0x12, 0x16, 0x0a, 0x06,
+	0x76, 0x65, 0x63, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x03, 0x28, 0x05, 0x52, 0x06, 0x76, 0x65,
+	0x63, 0x74, 0x6f, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x70, 0x6c, 0x61, 0x6e, 0x65, 0x74, 0x61, 0x22, 0x22,
 	0x0a, 0x02, 0x49, 0x50, 0x12, 0x1c, 0x0a, 0x09, 0x64, 0x69, 0x72, 0x65, 0x63, 0x63, 0x69, 0x6f,
 	0x6e, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x64, 0x69, 0x72, 0x65, 0x63, 0x63, 0x69,
 	0x6f, 0x6e, 0x22, 0x73, 0x0a, 0x04, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x25, 0x0a, 0x0e, 0x6e, 0x6f,
@@ -375,7 +934,7 @@ var file_rebelion_informantes_proto_rawDesc = []byte{
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x6e, 0x6f, 0x6d, 0x62, 0x72, 0x65, 0x43, 0x69,
 	0x75, 0x64, 0x61, 0x64, 0x12, 0x1f, 0x0a, 0x0b, 0x6e, 0x75, 0x65, 0x76, 0x6f, 0x5f, 0x76, 0x61,
 	0x6c, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x6e, 0x75, 0x65, 0x76, 0x6f,
-	0x56, 0x61, 0x6c, 0x6f, 0x72, 0x32, 0x88, 0x02, 0x0a, 0x0b, 0x49, 0x6e, 0x66, 0x6f, 0x72, 0x6d,
+	0x56, 0x61, 0x6c, 0x6f, 0x72, 0x32, 0x91, 0x04, 0x0a, 0x0b, 0x49, 0x6e, 0x66, 0x6f, 0x72, 0x6d,
 	0x61, 0x6e, 0x74, 0x65, 0x73, 0x12, 0x36, 0x0a, 0x07, 0x41, 0x64, 0x64, 0x43, 0x69, 0x74, 0x79,
 	0x12, 0x11, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x49,
 	0x6e, 0x66, 0x6f, 0x1a, 0x16, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65,
@@ -392,14 +951,35 @@ var file_rebelion_informantes_proto_rawDesc = []byte{
 	0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x49, 0x6e, 0x66, 0x6f,
 	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x1a, 0x16, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61,
 	0x6e, 0x74, 0x65, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x75, 0x65, 0x73, 0x74, 0x61, 0x22, 0x00,
-	0x32, 0x40, 0x0a, 0x06, 0x42, 0x72, 0x6f, 0x6b, 0x65, 0x72, 0x12, 0x36, 0x0a, 0x0b, 0x53, 0x6f,
-	0x6c, 0x69, 0x63, 0x69, 0x74, 0x61, 0x72, 0x49, 0x50, 0x12, 0x14, 0x2e, 0x69, 0x6e, 0x66, 0x6f,
-	0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x43, 0x6f, 0x6d, 0x61, 0x6e, 0x64, 0x6f, 0x1a,
-	0x0f, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x49, 0x50,
-	0x22, 0x00, 0x42, 0x2f, 0x5a, 0x2d, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x63, 0x6f,
-	0x6d, 0x2f, 0x67, 0x6f, 0x2d, 0x72, 0x65, 0x62, 0x65, 0x6c, 0x69, 0x6f, 0x6e, 0x2d, 0x67, 0x72,
-	0x70, 0x63, 0x3b, 0x67, 0x6f, 0x5f, 0x72, 0x65, 0x62, 0x65, 0x6c, 0x69, 0x6f, 0x6e, 0x5f, 0x67,
-	0x72, 0x70, 0x63, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x12, 0x45, 0x0a, 0x10, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x61, 0x72, 0x52, 0x65, 0x6c,
+	0x6f, 0x6a, 0x65, 0x73, 0x12, 0x17, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74,
+	0x65, 0x73, 0x2e, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x75, 0x64, 0x52, 0x1a, 0x16, 0x2e,
+	0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x52, 0x65, 0x73, 0x70,
+	0x75, 0x65, 0x73, 0x74, 0x61, 0x22, 0x00, 0x12, 0x44, 0x0a, 0x11, 0x53, 0x6f, 0x6c, 0x69, 0x63,
+	0x69, 0x74, 0x61, 0x72, 0x52, 0x65, 0x62, 0x65, 0x6c, 0x64, 0x65, 0x73, 0x12, 0x16, 0x2e, 0x69,
+	0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x53, 0x6f, 0x6c, 0x69, 0x63,
+	0x69, 0x74, 0x75, 0x64, 0x1a, 0x15, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74,
+	0x65, 0x73, 0x2e, 0x52, 0x65, 0x62, 0x65, 0x6c, 0x64, 0x65, 0x73, 0x22, 0x00, 0x12, 0x34, 0x0a,
+	0x05, 0x4d, 0x65, 0x72, 0x67, 0x65, 0x12, 0x11, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61,
+	0x6e, 0x74, 0x65, 0x73, 0x2e, 0x46, 0x6c, 0x61, 0x67, 0x1a, 0x16, 0x2e, 0x69, 0x6e, 0x66, 0x6f,
+	0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x4d, 0x65, 0x72, 0x67,
+	0x65, 0x22, 0x00, 0x12, 0x44, 0x0a, 0x0f, 0x50, 0x72, 0x6f, 0x70, 0x61, 0x67, 0x61, 0x72, 0x43,
+	0x61, 0x6d, 0x62, 0x69, 0x6f, 0x73, 0x12, 0x1c, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61,
+	0x6e, 0x74, 0x65, 0x73, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x41, 0x63, 0x74, 0x75, 0x61, 0x6c, 0x69,
+	0x7a, 0x61, 0x64, 0x61, 0x1a, 0x11, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74,
+	0x65, 0x73, 0x2e, 0x46, 0x6c, 0x61, 0x67, 0x22, 0x00, 0x32, 0x8a, 0x01, 0x0a, 0x06, 0x42, 0x72,
+	0x6f, 0x6b, 0x65, 0x72, 0x12, 0x36, 0x0a, 0x0b, 0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x61,
+	0x72, 0x49, 0x50, 0x12, 0x14, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65,
+	0x73, 0x2e, 0x43, 0x6f, 0x6d, 0x61, 0x6e, 0x64, 0x6f, 0x1a, 0x0f, 0x2e, 0x69, 0x6e, 0x66, 0x6f,
+	0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x49, 0x50, 0x22, 0x00, 0x12, 0x48, 0x0a, 0x11,
+	0x47, 0x65, 0x74, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x52, 0x65, 0x62, 0x65, 0x6c, 0x64, 0x65,
+	0x73, 0x12, 0x1a, 0x2e, 0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e,
+	0x53, 0x6f, 0x6c, 0x69, 0x63, 0x69, 0x74, 0x75, 0x64, 0x4c, 0x65, 0x69, 0x61, 0x1a, 0x15, 0x2e,
+	0x69, 0x6e, 0x66, 0x6f, 0x72, 0x6d, 0x61, 0x6e, 0x74, 0x65, 0x73, 0x2e, 0x52, 0x65, 0x62, 0x65,
+	0x6c, 0x64, 0x65, 0x73, 0x22, 0x00, 0x42, 0x2f, 0x5a, 0x2d, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c,
+	0x65, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x67, 0x6f, 0x2d, 0x72, 0x65, 0x62, 0x65, 0x6c, 0x69, 0x6f,
+	0x6e, 0x2d, 0x67, 0x72, 0x70, 0x63, 0x3b, 0x67, 0x6f, 0x5f, 0x72, 0x65, 0x62, 0x65, 0x6c, 0x69,
+	0x6f, 0x6e, 0x5f, 0x67, 0x72, 0x70, 0x63, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -414,31 +994,52 @@ func file_rebelion_informantes_proto_rawDescGZIP() []byte {
 	return file_rebelion_informantes_proto_rawDescData
 }
 
-var file_rebelion_informantes_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_rebelion_informantes_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_rebelion_informantes_proto_goTypes = []interface{}{
-	(*Comando)(nil),        // 0: informantes.Comando
-	(*IP)(nil),             // 1: informantes.IP
-	(*Info)(nil),           // 2: informantes.Info
-	(*Respuesta)(nil),      // 3: informantes.Respuesta
-	(*InfoDelete)(nil),     // 4: informantes.InfoDelete
-	(*InfoUpdateName)(nil), // 5: informantes.InfoUpdateName
+	(*Solicitud)(nil),       // 0: informantes.Solicitud
+	(*SolicitudR)(nil),      // 1: informantes.SolicitudR
+	(*SolicitudLeia)(nil),   // 2: informantes.SolicitudLeia
+	(*Flag)(nil),            // 3: informantes.Flag
+	(*InfoMerge)(nil),       // 4: informantes.InfoMerge
+	(*DataMerge)(nil),       // 5: informantes.DataMerge
+	(*InfoActualizada)(nil), // 6: informantes.InfoActualizada
+	(*DataActualizada)(nil), // 7: informantes.DataActualizada
+	(*Rebeldes)(nil),        // 8: informantes.Rebeldes
+	(*Comando)(nil),         // 9: informantes.Comando
+	(*IP)(nil),              // 10: informantes.IP
+	(*Info)(nil),            // 11: informantes.Info
+	(*Respuesta)(nil),       // 12: informantes.Respuesta
+	(*InfoDelete)(nil),      // 13: informantes.InfoDelete
+	(*InfoUpdateName)(nil),  // 14: informantes.InfoUpdateName
 }
 var file_rebelion_informantes_proto_depIdxs = []int32{
-	2, // 0: informantes.Informantes.AddCity:input_type -> informantes.Info
-	5, // 1: informantes.Informantes.UpdateName:input_type -> informantes.InfoUpdateName
-	2, // 2: informantes.Informantes.UpdateNumber:input_type -> informantes.Info
-	4, // 3: informantes.Informantes.DeleteCity:input_type -> informantes.InfoDelete
-	0, // 4: informantes.Broker.SolicitarIP:input_type -> informantes.Comando
-	3, // 5: informantes.Informantes.AddCity:output_type -> informantes.Respuesta
-	3, // 6: informantes.Informantes.UpdateName:output_type -> informantes.Respuesta
-	3, // 7: informantes.Informantes.UpdateNumber:output_type -> informantes.Respuesta
-	3, // 8: informantes.Informantes.DeleteCity:output_type -> informantes.Respuesta
-	1, // 9: informantes.Broker.SolicitarIP:output_type -> informantes.IP
-	5, // [5:10] is the sub-list for method output_type
-	0, // [0:5] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	5,  // 0: informantes.InfoMerge.lista_logs:type_name -> informantes.DataMerge
+	7,  // 1: informantes.InfoActualizada.data_actualizada:type_name -> informantes.DataActualizada
+	11, // 2: informantes.Informantes.AddCity:input_type -> informantes.Info
+	14, // 3: informantes.Informantes.UpdateName:input_type -> informantes.InfoUpdateName
+	11, // 4: informantes.Informantes.UpdateNumber:input_type -> informantes.Info
+	13, // 5: informantes.Informantes.DeleteCity:input_type -> informantes.InfoDelete
+	1,  // 6: informantes.Informantes.SolicitarRelojes:input_type -> informantes.SolicitudR
+	0,  // 7: informantes.Informantes.SolicitarRebeldes:input_type -> informantes.Solicitud
+	3,  // 8: informantes.Informantes.Merge:input_type -> informantes.Flag
+	6,  // 9: informantes.Informantes.PropagarCambios:input_type -> informantes.InfoActualizada
+	9,  // 10: informantes.Broker.SolicitarIP:input_type -> informantes.Comando
+	2,  // 11: informantes.Broker.GetNumberRebeldes:input_type -> informantes.SolicitudLeia
+	12, // 12: informantes.Informantes.AddCity:output_type -> informantes.Respuesta
+	12, // 13: informantes.Informantes.UpdateName:output_type -> informantes.Respuesta
+	12, // 14: informantes.Informantes.UpdateNumber:output_type -> informantes.Respuesta
+	12, // 15: informantes.Informantes.DeleteCity:output_type -> informantes.Respuesta
+	12, // 16: informantes.Informantes.SolicitarRelojes:output_type -> informantes.Respuesta
+	8,  // 17: informantes.Informantes.SolicitarRebeldes:output_type -> informantes.Rebeldes
+	4,  // 18: informantes.Informantes.Merge:output_type -> informantes.InfoMerge
+	3,  // 19: informantes.Informantes.PropagarCambios:output_type -> informantes.Flag
+	10, // 20: informantes.Broker.SolicitarIP:output_type -> informantes.IP
+	8,  // 21: informantes.Broker.GetNumberRebeldes:output_type -> informantes.Rebeldes
+	12, // [12:22] is the sub-list for method output_type
+	2,  // [2:12] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_rebelion_informantes_proto_init() }
@@ -448,7 +1049,7 @@ func file_rebelion_informantes_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_rebelion_informantes_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Comando); i {
+			switch v := v.(*Solicitud); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -460,7 +1061,7 @@ func file_rebelion_informantes_proto_init() {
 			}
 		}
 		file_rebelion_informantes_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*IP); i {
+			switch v := v.(*SolicitudR); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -472,7 +1073,7 @@ func file_rebelion_informantes_proto_init() {
 			}
 		}
 		file_rebelion_informantes_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Info); i {
+			switch v := v.(*SolicitudLeia); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -484,7 +1085,7 @@ func file_rebelion_informantes_proto_init() {
 			}
 		}
 		file_rebelion_informantes_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Respuesta); i {
+			switch v := v.(*Flag); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -496,7 +1097,7 @@ func file_rebelion_informantes_proto_init() {
 			}
 		}
 		file_rebelion_informantes_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*InfoDelete); i {
+			switch v := v.(*InfoMerge); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -508,6 +1109,114 @@ func file_rebelion_informantes_proto_init() {
 			}
 		}
 		file_rebelion_informantes_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DataMerge); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*InfoActualizada); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DataActualizada); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Rebeldes); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Comando); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*IP); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Info); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Respuesta); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*InfoDelete); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_rebelion_informantes_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*InfoUpdateName); i {
 			case 0:
 				return &v.state
@@ -526,7 +1235,7 @@ func file_rebelion_informantes_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rebelion_informantes_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   15,
 			NumExtensions: 0,
 			NumServices:   2,
 		},

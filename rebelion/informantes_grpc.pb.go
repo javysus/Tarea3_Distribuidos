@@ -22,6 +22,10 @@ type InformantesClient interface {
 	UpdateName(ctx context.Context, in *InfoUpdateName, opts ...grpc.CallOption) (*Respuesta, error)
 	UpdateNumber(ctx context.Context, in *Info, opts ...grpc.CallOption) (*Respuesta, error)
 	DeleteCity(ctx context.Context, in *InfoDelete, opts ...grpc.CallOption) (*Respuesta, error)
+	SolicitarRelojes(ctx context.Context, in *SolicitudR, opts ...grpc.CallOption) (*Respuesta, error)
+	SolicitarRebeldes(ctx context.Context, in *Solicitud, opts ...grpc.CallOption) (*Rebeldes, error)
+	Merge(ctx context.Context, in *Flag, opts ...grpc.CallOption) (*InfoMerge, error)
+	PropagarCambios(ctx context.Context, in *InfoActualizada, opts ...grpc.CallOption) (*Flag, error)
 }
 
 type informantesClient struct {
@@ -68,6 +72,42 @@ func (c *informantesClient) DeleteCity(ctx context.Context, in *InfoDelete, opts
 	return out, nil
 }
 
+func (c *informantesClient) SolicitarRelojes(ctx context.Context, in *SolicitudR, opts ...grpc.CallOption) (*Respuesta, error) {
+	out := new(Respuesta)
+	err := c.cc.Invoke(ctx, "/informantes.Informantes/SolicitarRelojes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *informantesClient) SolicitarRebeldes(ctx context.Context, in *Solicitud, opts ...grpc.CallOption) (*Rebeldes, error) {
+	out := new(Rebeldes)
+	err := c.cc.Invoke(ctx, "/informantes.Informantes/SolicitarRebeldes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *informantesClient) Merge(ctx context.Context, in *Flag, opts ...grpc.CallOption) (*InfoMerge, error) {
+	out := new(InfoMerge)
+	err := c.cc.Invoke(ctx, "/informantes.Informantes/Merge", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *informantesClient) PropagarCambios(ctx context.Context, in *InfoActualizada, opts ...grpc.CallOption) (*Flag, error) {
+	out := new(Flag)
+	err := c.cc.Invoke(ctx, "/informantes.Informantes/PropagarCambios", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // InformantesServer is the server API for Informantes service.
 // All implementations must embed UnimplementedInformantesServer
 // for forward compatibility
@@ -76,6 +116,10 @@ type InformantesServer interface {
 	UpdateName(context.Context, *InfoUpdateName) (*Respuesta, error)
 	UpdateNumber(context.Context, *Info) (*Respuesta, error)
 	DeleteCity(context.Context, *InfoDelete) (*Respuesta, error)
+	SolicitarRelojes(context.Context, *SolicitudR) (*Respuesta, error)
+	SolicitarRebeldes(context.Context, *Solicitud) (*Rebeldes, error)
+	Merge(context.Context, *Flag) (*InfoMerge, error)
+	PropagarCambios(context.Context, *InfoActualizada) (*Flag, error)
 	mustEmbedUnimplementedInformantesServer()
 }
 
@@ -94,6 +138,18 @@ func (UnimplementedInformantesServer) UpdateNumber(context.Context, *Info) (*Res
 }
 func (UnimplementedInformantesServer) DeleteCity(context.Context, *InfoDelete) (*Respuesta, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteCity not implemented")
+}
+func (UnimplementedInformantesServer) SolicitarRelojes(context.Context, *SolicitudR) (*Respuesta, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SolicitarRelojes not implemented")
+}
+func (UnimplementedInformantesServer) SolicitarRebeldes(context.Context, *Solicitud) (*Rebeldes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SolicitarRebeldes not implemented")
+}
+func (UnimplementedInformantesServer) Merge(context.Context, *Flag) (*InfoMerge, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Merge not implemented")
+}
+func (UnimplementedInformantesServer) PropagarCambios(context.Context, *InfoActualizada) (*Flag, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PropagarCambios not implemented")
 }
 func (UnimplementedInformantesServer) mustEmbedUnimplementedInformantesServer() {}
 
@@ -180,6 +236,78 @@ func _Informantes_DeleteCity_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Informantes_SolicitarRelojes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SolicitudR)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InformantesServer).SolicitarRelojes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/informantes.Informantes/SolicitarRelojes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InformantesServer).SolicitarRelojes(ctx, req.(*SolicitudR))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Informantes_SolicitarRebeldes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Solicitud)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InformantesServer).SolicitarRebeldes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/informantes.Informantes/SolicitarRebeldes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InformantesServer).SolicitarRebeldes(ctx, req.(*Solicitud))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Informantes_Merge_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Flag)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InformantesServer).Merge(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/informantes.Informantes/Merge",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InformantesServer).Merge(ctx, req.(*Flag))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Informantes_PropagarCambios_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InfoActualizada)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(InformantesServer).PropagarCambios(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/informantes.Informantes/PropagarCambios",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(InformantesServer).PropagarCambios(ctx, req.(*InfoActualizada))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Informantes_ServiceDesc is the grpc.ServiceDesc for Informantes service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -203,6 +331,22 @@ var Informantes_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "DeleteCity",
 			Handler:    _Informantes_DeleteCity_Handler,
 		},
+		{
+			MethodName: "SolicitarRelojes",
+			Handler:    _Informantes_SolicitarRelojes_Handler,
+		},
+		{
+			MethodName: "SolicitarRebeldes",
+			Handler:    _Informantes_SolicitarRebeldes_Handler,
+		},
+		{
+			MethodName: "Merge",
+			Handler:    _Informantes_Merge_Handler,
+		},
+		{
+			MethodName: "PropagarCambios",
+			Handler:    _Informantes_PropagarCambios_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "rebelion/informantes.proto",
@@ -213,6 +357,7 @@ var Informantes_ServiceDesc = grpc.ServiceDesc{
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BrokerClient interface {
 	SolicitarIP(ctx context.Context, in *Comando, opts ...grpc.CallOption) (*IP, error)
+	GetNumberRebeldes(ctx context.Context, in *SolicitudLeia, opts ...grpc.CallOption) (*Rebeldes, error)
 }
 
 type brokerClient struct {
@@ -232,11 +377,21 @@ func (c *brokerClient) SolicitarIP(ctx context.Context, in *Comando, opts ...grp
 	return out, nil
 }
 
+func (c *brokerClient) GetNumberRebeldes(ctx context.Context, in *SolicitudLeia, opts ...grpc.CallOption) (*Rebeldes, error) {
+	out := new(Rebeldes)
+	err := c.cc.Invoke(ctx, "/informantes.Broker/GetNumberRebeldes", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BrokerServer is the server API for Broker service.
 // All implementations must embed UnimplementedBrokerServer
 // for forward compatibility
 type BrokerServer interface {
 	SolicitarIP(context.Context, *Comando) (*IP, error)
+	GetNumberRebeldes(context.Context, *SolicitudLeia) (*Rebeldes, error)
 	mustEmbedUnimplementedBrokerServer()
 }
 
@@ -246,6 +401,9 @@ type UnimplementedBrokerServer struct {
 
 func (UnimplementedBrokerServer) SolicitarIP(context.Context, *Comando) (*IP, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SolicitarIP not implemented")
+}
+func (UnimplementedBrokerServer) GetNumberRebeldes(context.Context, *SolicitudLeia) (*Rebeldes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetNumberRebeldes not implemented")
 }
 func (UnimplementedBrokerServer) mustEmbedUnimplementedBrokerServer() {}
 
@@ -278,6 +436,24 @@ func _Broker_SolicitarIP_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Broker_GetNumberRebeldes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SolicitudLeia)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BrokerServer).GetNumberRebeldes(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/informantes.Broker/GetNumberRebeldes",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BrokerServer).GetNumberRebeldes(ctx, req.(*SolicitudLeia))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Broker_ServiceDesc is the grpc.ServiceDesc for Broker service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -288,6 +464,10 @@ var Broker_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SolicitarIP",
 			Handler:    _Broker_SolicitarIP_Handler,
+		},
+		{
+			MethodName: "GetNumberRebeldes",
+			Handler:    _Broker_GetNumberRebeldes_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
